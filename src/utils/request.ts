@@ -1,0 +1,153 @@
+import qs from "qs";
+import * as _ from "lodash-es";
+// import {message} from "ant-design-vue";
+// import {useUserStore} from "@/stores";
+
+// const {VITE_API_BASE_URL} = import.meta.env;
+
+/**
+ * 请求方式 Enum
+ */
+export enum MethodEnum {
+  GET = "GET",
+  POST = "POST",
+  PATCH = "PATCH",
+  PUT = "PUT",
+  DELETE = "DELETE",
+  HEAD = "HEAD",
+}
+
+/**
+ * 响应体的内容类型 Enum
+ */
+export enum ContentTypeEnum {
+  APPLICATION_JSON = "application/json", // 默认
+  APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded",
+  MULTIPART_FORM_DATA = "multipart/form-data",
+  APPLICATION_VND_MS_EXCEL = "application/vnd.ms-excel",
+}
+
+/**
+ * 请求选项接口
+ */
+interface IRequestOptions {
+  /** 请求路径 */
+  url: string;
+  /** 请求方式 */
+  method: MethodEnum;
+  /** 查询字符串参数 */
+  query?: {[key: string]: any};
+  /** 请求头 */
+  headers?: {[key: string]: any};
+  /** 请求载荷 */
+  data?: {[key: string]: any};
+}
+
+/**
+ * 请求函数
+ * @param options 请求选项
+ */
+function request(options: IRequestOptions) {
+  const startRequest = () => {
+    let {url, method, query, headers = {}, data = {}} = options;
+    let body;
+    // const userStore = useUserStore();
+
+    headers = new Headers(
+      _.merge(
+        {
+          "Content-Type": ContentTypeEnum.APPLICATION_JSON,
+          //   authorization: `${userStore.tokenType} ${userStore.accessToken}`,
+          authorization: `${"xxx"} ${"xxx"}`,
+        },
+        headers,
+      ),
+    );
+
+    switch (headers.get("Content-Type")) {
+      case ContentTypeEnum.APPLICATION_JSON:
+        body = JSON.stringify(data);
+        break;
+      case ContentTypeEnum.MULTIPART_FORM_DATA:
+        headers.delete("Content-Type"); // 删除使浏览器自动配置才能上传成功
+        body = qs.stringify(data); // 自动将 object 转 FormData
+        break;
+    }
+
+    return fetch(
+      //   `${VITE_API_BASE_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`,
+      `${"xxx"}${url}${query ? `?${qs.stringify(query)}` : ""}`,
+      {
+        method,
+        headers,
+        body:
+          method !== MethodEnum.GET && method !== MethodEnum.HEAD
+            ? body
+            : undefined,
+        credentials: "include",
+      },
+    )
+      .then(res => {
+        if (res.ok) {
+          const contentType = res.headers.get("content-type");
+
+          if (!contentType) {
+            return Promise.reject(new Error("响应头未找到 Content-Type 字段"));
+          }
+
+          if (contentType.includes(ContentTypeEnum.APPLICATION_JSON)) {
+            return res.json().then(body => {
+              /** 客户端根据不同 code 的含义，执行相应的响应预处理 */
+              switch (body.code) {
+                /** 成功 */
+                case 200:
+                  return body;
+                case 401:
+                  //   return userStore.postRefreshToken().then(() => {
+                  //     return startRequest();
+                  //   });
+                  return (async () => {})().then(() => {
+                    return startRequest();
+                  });
+                default:
+                  return Promise.reject(new Error(body.message));
+              }
+            });
+          }
+
+          return Promise.reject(
+            new Error(`客户端不知道如何处理 Content-Type: ${contentType}`),
+          );
+        }
+
+        return Promise.reject(new Error("未知错误"));
+      })
+      .catch(error => {
+        // message.error(error.message);
+        return Promise.reject(error);
+      });
+  };
+
+  return startRequest();
+}
+
+/**
+ * 创建请求函数，通过指定的请求方式
+ * @param method 请求方式
+ */
+const createRequest = (method: MethodEnum) => {
+  return (options: Omit<IRequestOptions, "method">) =>
+    request({
+      ...options,
+      method,
+    });
+};
+
+export default {
+  get: createRequest(MethodEnum.GET),
+  head: createRequest(MethodEnum.HEAD),
+  patch: createRequest(MethodEnum.PATCH),
+  put: createRequest(MethodEnum.PUT),
+  post: createRequest(MethodEnum.POST),
+  delete: createRequest(MethodEnum.DELETE),
+};
