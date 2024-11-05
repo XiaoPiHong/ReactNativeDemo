@@ -4,5 +4,6 @@ module.exports = {
   rules: {
     quotes: "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "react/self-closing-comp": "off",
   },
 };
