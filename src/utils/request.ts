@@ -1,9 +1,8 @@
 import qs from "qs";
 import * as _ from "lodash-es";
+import {BASE_API_URL} from "@env";
 // import {message} from "ant-design-vue";
 // import {useUserStore} from "@/stores";
-
-// const {VITE_API_BASE_URL} = import.meta.env;
 
 /**
  * 请求方式 Enum
@@ -75,8 +74,7 @@ function request(options: IRequestOptions) {
     }
 
     return fetch(
-      //   `${VITE_API_BASE_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`,
-      `${"xxx"}${url}${query ? `?${qs.stringify(query)}` : ""}`,
+      `${BASE_API_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`,
       {
         method,
         headers,
