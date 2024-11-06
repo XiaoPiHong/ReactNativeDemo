@@ -1,8 +1,6 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- *
- * @format
  */
 import React from "react";
 import {SafeAreaProvider} from "react-native-safe-area-context";
@@ -12,20 +10,27 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Icon from "@/components/Icon";
 import ThemeProvider, {useTheme} from "@/context/useThemeContext";
 import {typeVariants} from "@/theme";
+import Layout from "@/layout";
+import {SERVER_URL} from "@env";
 
 function HomeScreen() {
   return (
-    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Text>Home!</Text>
-    </View>
+    <Layout>
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        <Text>Home!</Text>
+        <Text>{SERVER_URL}</Text>
+      </View>
+    </Layout>
   );
 }
 
 function SettingsScreen() {
   return (
-    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Text>Settings!</Text>
-    </View>
+    <Layout>
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        <Text>Settings!</Text>
+      </View>
+    </Layout>
   );
 }
 
