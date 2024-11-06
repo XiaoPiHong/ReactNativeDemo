@@ -1,23 +1,27 @@
 import React from "react";
-import {StyleSheet, Text, View, Dimensions} from "react-native";
+import {StyleSheet, Text, View, useWindowDimensions} from "react-native";
 import {useNetInfo} from "@react-native-community/netinfo";
-import Layout from "@/layout";
-import {useTheme} from "@/context/useThemeContext";
-
-const {width} = Dimensions.get("window");
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 // Full Screen component to show No internet message
 const NoInternet = () => {
   const netInfo = useNetInfo();
-  const {theme} = useTheme();
+  const insets = useSafeAreaInsets();
   if (!netInfo.isConnected) {
     return (
-      <Layout style={styles.layout}>
-        <View style={styles.content}>
-          <Text style={[styles.title, {color: theme.color}]}>网络异常</Text>
-          <Text style={{color: theme.color}}>请检查你的网络</Text>
-        </View>
-      </Layout>
+      <View
+        style={[
+          styles.fullOfflineContainer,
+          {
+            top: insets.top,
+            left: insets.left,
+            right: insets.right,
+            bottom: insets.bottom,
+          },
+        ]}>
+        <Text style={[styles.fullOfflineTitle, {color: "red"}]}>网络异常</Text>
+        <Text style={{color: "red"}}>请检查你的网络</Text>
+      </View>
     );
   }
   return null;
@@ -28,9 +32,10 @@ export default NoInternet;
 // Component (tiny) for showing No Intenet message at bottom the app
 export const NoInternetToast = () => {
   const netInfo = useNetInfo();
+  const {width} = useWindowDimensions();
   if (!netInfo.isConnected) {
     return (
-      <View style={styles.offlineContainer}>
+      <View style={[styles.offlineContainer, {width}]}>
         <Text style={styles.offlineText}>网络异常</Text>
       </View>
     );
@@ -39,14 +44,14 @@ export const NoInternetToast = () => {
 };
 
 const styles = StyleSheet.create({
-  layout: {
+  fullOfflineContainer: {
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
+    zIndex: 10,
+    backgroundColor: "rgba(0,0,0,0.8)",
   },
-  content: {
-    alignItems: "center",
-  },
-  title: {
+  fullOfflineTitle: {
     marginBottom: 10,
   },
   offlineContainer: {
@@ -55,7 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    width,
     position: "absolute",
     bottom: 0,
     zIndex: 10,

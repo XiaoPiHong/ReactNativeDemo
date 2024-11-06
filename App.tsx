@@ -11,7 +11,7 @@ import Icon from "@/components/Icon";
 import ThemeProvider, {useTheme} from "@/context/useThemeContext";
 import {typeVariants} from "@/theme";
 import Layout from "@/layout";
-import NoInternet from "@/components/NoInternet";
+import NoInternet, {NoInternetToast} from "@/components/NoInternet";
 import {SERVER_URL} from "@env";
 
 function HomeScreen() {
