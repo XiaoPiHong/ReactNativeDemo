@@ -10,6 +10,8 @@ import {Text, View} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Icon from "@/components/Icon";
+import ThemeProvider, {useTheme} from "@/context/useThemeContext";
+import {typeVariants} from "@/theme";
 
 function HomeScreen() {
   return (
@@ -28,36 +30,57 @@ function SettingsScreen() {
 }
 
 const HomeIcon = ({focused}) => {
-  return <Icon name={"home"} />;
+  const {theme} = useTheme();
+  return <Icon name={"home"} color={focused ? theme.primary : void 0} />;
 };
 
 const SettingsIcon = ({focused}) => {
-  return <Icon name={"settings"} />;
+  const {theme} = useTheme();
+  return <Icon name={"settings"} color={focused ? theme.primary : void 0} />;
 };
 
 function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator();
-
+  const {theme} = useTheme();
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Home"
-            options={{
-              tabBarIcon: HomeIcon,
-            }}
-            component={HomeScreen}
-          />
-          <Tab.Screen
-            name="Settings"
-            options={{
-              tabBarIcon: SettingsIcon,
-            }}
-            component={SettingsScreen}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarStyle: {
+                backgroundColor: theme.cardBg,
+                borderTopColor: theme?.layoutBg,
+              },
+              tabBarInactiveTintColor: theme.color,
+              tabBarActiveTintColor: theme.primary,
+              headerStyle: {backgroundColor: theme.cardBg, height: 50},
+              headerTitleAlign: "center",
+              headerTitleStyle: {
+                fontFamily: typeVariants.titleLarge.fontFamily,
+                fontSize: 18,
+                color: theme.primary,
+                fontWeight: "bold",
+              },
+              tabBarShowLabel: false,
+            }}>
+            <Tab.Screen
+              name="Home"
+              options={{
+                tabBarIcon: HomeIcon,
+              }}
+              component={HomeScreen}
+            />
+            <Tab.Screen
+              name="Settings"
+              options={{
+                tabBarIcon: SettingsIcon,
+              }}
+              component={SettingsScreen}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
