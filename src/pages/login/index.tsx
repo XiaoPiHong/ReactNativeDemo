@@ -18,7 +18,11 @@ export default function LoginScreen() {
     <Layout>
       <View style={styles.container}>
         <View style={styles.logoView}>
-          <Image resizeMode="contain" style={styles.logo} />
+          <Image
+            source={require("@/assets/skout_logo.png")}
+            resizeMode="contain"
+            style={styles.logo}
+          />
         </View>
         <View style={styles.inputView}>
           <TextInput
