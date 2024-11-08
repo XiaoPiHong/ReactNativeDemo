@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {StyleSheet, Text, View, useWindowDimensions} from "react-native";
 import {useNetInfo} from "@react-native-community/netinfo";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
@@ -7,7 +7,12 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 const NoInternet = () => {
   const netInfo = useNetInfo();
   const insets = useSafeAreaInsets();
-  if (!netInfo.isConnected) {
+  // netInfo.isConnected init is null
+  const isConnected = useMemo(
+    () => netInfo.isConnected ?? true,
+    [netInfo.isConnected],
+  );
+  if (!isConnected) {
     return (
       <View
         style={[
@@ -33,7 +38,11 @@ export default NoInternet;
 export const NoInternetToast = () => {
   const netInfo = useNetInfo();
   const {width} = useWindowDimensions();
-  if (!netInfo.isConnected) {
+  const isConnected = useMemo(
+    () => netInfo.isConnected ?? true,
+    [netInfo.isConnected],
+  );
+  if (!isConnected) {
     return (
       <View style={[styles.offlineContainer, {width}]}>
         <Text style={styles.offlineText}>网络异常</Text>
