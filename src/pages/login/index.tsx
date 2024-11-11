@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import Layout from "@/layout";
 import {useTheme} from "@/context/useThemeContext";
@@ -15,8 +16,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const {theme} = useTheme();
   return (
-    <Layout>
-      <View style={styles.container}>
+    <Layout style={styles.layout}>
+      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <View style={styles.logoView}>
           <Image
             source={require("@/assets/skout_logo.png")}
@@ -67,17 +68,18 @@ export default function LoginScreen() {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  layout: {
     backgroundColor: "#fff",
+  },
+  scrollContentContainer: {
     alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 50,
   },
   logo: {
     fontWeight: "bold",
