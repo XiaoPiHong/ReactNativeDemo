@@ -8,3 +8,6 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# rn bug issuse: https://github.com/software-mansion/react-native-reanimated/issues/5514
+-keep class com.facebook.react.fabric.** { *; }
