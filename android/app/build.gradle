@@ -116,10 +116,22 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+    	 // 加上下面这两行，解决导入鸿洋okhttputils不识别的问题
+        jcenter { url 'https://maven.aliyun.com/repository/jcenter' }
+    }
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
+    implementation("com.github.xuexiangjys:XUpdate:2.1.5")
+    implementation("com.zhy:okhttputils:2.6.2")
+    implementation("com.squareup.okhttp3:okhttp:3.14.9")
+    implementation("com.google.code.gson:gson:2.8.8")
+    
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
