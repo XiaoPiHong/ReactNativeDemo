@@ -92,7 +92,10 @@ class UpdateArgs {
   }
 }
 
-const EventEmitter = new NativeEventEmitter(RNXUpdate);
+const EventEmitter =
+  Platform.OS === "android"
+    ? new NativeEventEmitter()
+    : new NativeEventEmitter(RNXUpdate);
 
 class UpdateParser {
   parseJson: (json: string) => UpdateEntity;

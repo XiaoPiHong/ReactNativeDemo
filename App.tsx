@@ -9,7 +9,7 @@ import ThemeProvider from "@/context/useThemeContext";
 import {NoInternetToast} from "@/components/NoInternet";
 import SplashScreen from "react-native-splash-screen";
 import RootNavigation from "@/components/RootNavigation";
-import {XUpdate, UpdateArgs, InitArgs} from "@/utils/xupdate";
+import {XUpdate, InitArgs} from "@/utils/xupdate";
 
 function App(): React.JSX.Element {
   //自定义的异常处理
@@ -46,17 +46,6 @@ function App(): React.JSX.Element {
     SplashScreen.hide();
   }, []);
 
-  const checkUpdateDefault = () => {
-    let args = new UpdateArgs(
-      "https://gitee.com/xuexiangjys/XUpdate/raw/master/jsonapi/update_test.json",
-    );
-
-    console.log(args);
-    // args.themeColor = '#FF14388E';
-    // args.buttonTextColor = '#FFFFFFFF';
-    XUpdate.update(args);
-  };
-
   useEffect(() => {
     let args = new InitArgs();
     args.debug = true;
@@ -70,10 +59,10 @@ function App(): React.JSX.Element {
     XUpdate.init(args)
       .then(result => {
         console.log("初始化成功:" + JSON.stringify(result));
-
-        checkUpdateDefault();
       })
-      .catch(error => {});
+      .catch(error => {
+        console.log("初始化失败:" + JSON.stringify(error));
+      });
 
     // 设置自定义解析
     XUpdate.setCustomParser({parseJson: customParser});
