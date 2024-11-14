@@ -86,8 +86,6 @@ const createLocalStorage = createStore(appStorage);
  * 本地存储空间对象
  */
 export const local = {
-  accessToken: createLocalStorage("accessToken"),
-  refreshToken: createLocalStorage("refreshToken"),
-  tokenType: createLocalStorage("tokenType"),
+  // accessToken: createLocalStorage("accessToken"),
   // user: createLocalStorage("user", FilterTypeEnum.JSON)
 };

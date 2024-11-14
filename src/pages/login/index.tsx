@@ -11,17 +11,42 @@ import {
 import Layout from "@/layout";
 import {useTheme} from "@/context/useThemeContext";
 import useToast from "@/hooks/useToast";
+import {useDispatch} from "react-redux";
+import {updateTokenConfig} from "@/store/slices/userSlice";
+import {stringMd5} from "react-native-quick-md5";
+import * as apisAuth from "@/apis/auth/auth";
+import * as randomUtil from "@/utils/random";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("xph-admin");
+  const [password, setPassword] = useState("Admin@1234");
   const {theme} = useTheme();
   const {toast} = useToast();
+  const dispatch = useDispatch();
 
   const onClickLoginBtn = () => {
-    if (!email || !password) {
-      return toast.warning("Please enter email and password");
+    if (!username || !password) {
+      return toast.warning("请输入用户名和密码");
     }
+
+    const timestamp = Date.now().toString();
+    const nonceStr = randomUtil.generateRandomString(16);
+    const signature = stringMd5(
+      `${nonceStr}${timestamp}${stringMd5(password)}`,
+    );
+
+    apisAuth
+      .postSignInByEmail({
+        username,
+        nonceStr,
+        timestamp,
+        signature,
+        clientId: "sso-admin",
+      })
+      .then(res => {
+        console.log(res);
+        dispatch(updateTokenConfig(res));
+      });
   };
 
   return (
@@ -36,12 +61,11 @@ export default function LoginScreen() {
         </View>
         <View style={styles.inputView}>
           <TextInput
-            value={email}
+            value={username}
             style={styles.inputText}
-            placeholder="Email"
+            placeholder="Username"
             placeholderTextColor="#AFAFAF"
-            keyboardType="email-address"
-            onChangeText={email => setEmail(email)}
+            onChangeText={username => setUserName(username)}
           />
         </View>
         <View style={styles.inputView}>

@@ -1,8 +1,8 @@
 import qs from "qs";
 import * as _ from "lodash-es";
 import {BASE_API_URL} from "@env";
-// import {message} from "ant-design-vue";
 // import {useUserStore} from "@/stores";
+import * as storageUtil from "@/utils/storage";
 
 /**
  * 请求方式 Enum
@@ -122,6 +122,7 @@ function request(options: IRequestOptions) {
       })
       .catch(error => {
         // message.error(error.message);
+        console.log(error.message);
         return Promise.reject(error);
       });
   };

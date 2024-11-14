@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: appStorage,
-  blacklist: ["user"], // 黑名单，user不需要持久化
+  blacklist: [], // 黑名单，不需要持久化
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

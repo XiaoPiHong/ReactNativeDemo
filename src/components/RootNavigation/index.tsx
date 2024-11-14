@@ -29,7 +29,7 @@ function RootNavigation() {
   const user = useSelector((state: TRootState) => state.user);
   return (
     <NavigationContainer>
-      {user.token ? (
+      {user.accessToken ? (
         <Tab.Navigator
           screenOptions={{
             tabBarStyle: {
