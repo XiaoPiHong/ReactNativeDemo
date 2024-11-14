@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Text, View, Button} from "react-native";
 import {SERVER_URL} from "@env";
 import Layout from "@/layout";

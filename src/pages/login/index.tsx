@@ -10,11 +10,20 @@ import {
 } from "react-native";
 import Layout from "@/layout";
 import {useTheme} from "@/context/useThemeContext";
+import useToast from "@/hooks/useToast";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {theme} = useTheme();
+  const {toast} = useToast();
+
+  const onClickLoginBtn = () => {
+    if (!email || !password) {
+      return toast.warning("Please enter email and password");
+    }
+  };
+
   return (
     <Layout style={styles.layout}>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
@@ -29,8 +38,9 @@ export default function LoginScreen() {
           <TextInput
             value={email}
             style={styles.inputText}
-            placeholder="+2340899004909"
+            placeholder="Email"
             placeholderTextColor="#AFAFAF"
+            keyboardType="email-address"
             onChangeText={email => setEmail(email)}
           />
         </View>
@@ -40,6 +50,7 @@ export default function LoginScreen() {
             style={styles.inputText}
             placeholder="Password"
             placeholderTextColor="#AFAFAF"
+            secureTextEntry
             onChangeText={password => setPassword(password)}
           />
         </View>
@@ -49,7 +60,8 @@ export default function LoginScreen() {
             {
               backgroundColor: theme.primary,
             },
-          ]}>
+          ]}
+          onPress={onClickLoginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         <View style={styles.actions}>
