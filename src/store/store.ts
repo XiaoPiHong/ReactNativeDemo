@@ -27,3 +27,6 @@ export const persistor = persistStore(store);
 
 export type TRootState = ReturnType<typeof store.getState>;
 export type TAppDispatch = typeof store.dispatch;
+
+export const useUserState = () => store.getState().user;
+// export const useOtherState = () => store.getState().other;

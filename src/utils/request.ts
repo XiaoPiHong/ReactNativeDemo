@@ -1,8 +1,9 @@
 import qs from "qs";
 import * as _ from "lodash-es";
-import {BASE_API_URL} from "@env";
-// import {useUserStore} from "@/stores";
-import * as storageUtil from "@/utils/storage";
+import * as envUtil from "@/utils/env";
+import {useUserState} from "@/store/store";
+
+const {BASE_API_URL, SERVER_URL} = envUtil.getEnvConfig();
 
 /**
  * 请求方式 Enum
@@ -50,14 +51,15 @@ function request(options: IRequestOptions) {
   const startRequest = () => {
     let {url, method, query, headers = {}, data = {}} = options;
     let body;
-    // const userStore = useUserStore();
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const userState = useUserState();
+    console.log("token：", `${userState.tokenType} ${userState.accessToken}`);
     headers = new Headers(
       _.merge(
         {
           "Content-Type": ContentTypeEnum.APPLICATION_JSON,
-          //   authorization: `${userStore.tokenType} ${userStore.accessToken}`,
-          authorization: `${"xxx"} ${"xxx"}`,
+          authorization: `${userState.tokenType} ${userState.accessToken}`,
         },
         headers,
       ),
@@ -72,9 +74,10 @@ function request(options: IRequestOptions) {
         body = qs.stringify(data); // 自动将 object 转 FormData
         break;
     }
-
     return fetch(
-      `${BASE_API_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`,
+      `${SERVER_URL}${BASE_API_URL}${url}${
+        query ? `?${qs.stringify(query)}` : ""
+      }`,
       {
         method,
         headers,
@@ -121,7 +124,7 @@ function request(options: IRequestOptions) {
         return Promise.reject(new Error("未知错误"));
       })
       .catch(error => {
-        // message.error(error.message);
+        // toast.danger(error.message);
         console.log(error.message);
         return Promise.reject(error);
       });

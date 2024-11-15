@@ -36,7 +36,7 @@ export default function LoginScreen() {
     );
 
     apisAuth
-      .postSignInByEmail({
+      .postSignInByUsername({
         username,
         nonceStr,
         timestamp,
@@ -44,8 +44,8 @@ export default function LoginScreen() {
         clientId: "sso-admin",
       })
       .then(res => {
-        console.log(res);
-        dispatch(updateTokenConfig(res));
+        const {data} = res;
+        dispatch(updateTokenConfig(data));
       });
   };
 
