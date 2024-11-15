@@ -1,9 +1,8 @@
 import qs from "qs";
 import * as _ from "lodash-es";
 import * as envUtil from "@/utils/env";
-import {useUserState} from "@/store/store";
-import * as apisOauth from "@/apis/oauth/oauth";
-import {clearUser} from "@/store/slices/userSlice";
+import {useUserState, TAppDispatch} from "@/store/store";
+import {postRefreshToken} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
 import toast from "react-native-root-toast";
 
@@ -108,19 +107,17 @@ function request(options: IRequestOptions) {
                 case 200:
                   return body;
                 case 401: {
-                  return apisOauth
-                    .postOauthToken({
+                  const dispatch = useDispatch<TAppDispatch>();
+
+                  return dispatch(
+                    postRefreshToken({
                       grant_type: "refresh_token",
                       client_id: "sso-admin",
                       refresh_token: userState.refreshToken,
-                    })
-                    .then(() => {
-                      return startRequest();
-                    })
-                    .catch(() => {
-                      const dispatch = useDispatch();
-                      dispatch(clearUser());
-                    });
+                    }),
+                  ).then(() => {
+                    return startRequest();
+                  });
                 }
                 default:
                   return Promise.reject(new Error(body.message));
