@@ -2,6 +2,10 @@ import qs from "qs";
 import * as _ from "lodash-es";
 import * as envUtil from "@/utils/env";
 import {useUserState} from "@/store/store";
+import * as apisOauth from "@/apis/oauth/oauth";
+import {clearUser} from "@/store/slices/userSlice";
+import {useDispatch} from "react-redux";
+import toast from "react-native-root-toast";
 
 const {BASE_API_URL, SERVER_URL} = envUtil.getEnvConfig();
 
@@ -103,13 +107,21 @@ function request(options: IRequestOptions) {
                 /** 成功 */
                 case 200:
                   return body;
-                case 401:
-                  //   return userStore.postRefreshToken().then(() => {
-                  //     return startRequest();
-                  //   });
-                  return (async () => {})().then(() => {
-                    return startRequest();
-                  });
+                case 401: {
+                  return apisOauth
+                    .postOauthToken({
+                      grant_type: "refresh_token",
+                      client_id: "sso-admin",
+                      refresh_token: userState.refreshToken,
+                    })
+                    .then(() => {
+                      return startRequest();
+                    })
+                    .catch(() => {
+                      const dispatch = useDispatch();
+                      dispatch(clearUser());
+                    });
+                }
                 default:
                   return Promise.reject(new Error(body.message));
               }
@@ -124,8 +136,14 @@ function request(options: IRequestOptions) {
         return Promise.reject(new Error("未知错误"));
       })
       .catch(error => {
-        // toast.danger(error.message);
         console.log(error.message);
+        toast.show(error.message, {
+          duration: toast.durations.LONG,
+          position: toast.positions.TOP,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+        });
         return Promise.reject(error);
       });
   };
