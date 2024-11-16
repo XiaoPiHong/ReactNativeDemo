@@ -1,0 +1,13 @@
+{
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    // 规范：全大写用upXxxx，全小写用lowXxx
+    "upLogin": "LOGIN",
+    "tips": {
+      "usernameAndPasswordNotNull": "Please enter username and password"
+    }
+  },
+  "home": {},
+  "settings": {}
+}

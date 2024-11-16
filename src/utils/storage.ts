@@ -46,8 +46,8 @@ const filterTypeToFilterMap = new Map<
 function createStore(storage: typeof appStorage) {
   return function (key: string, filterType?: FilterTypeEnum) {
     return {
-      get() {
-        let value = storage.getItem(key);
+      async get() {
+        let value = await storage.getItem(key);
 
         if (typeof filterType !== "undefined") {
           const filter = filterTypeToFilterMap.get(filterType);
@@ -86,6 +86,7 @@ const createLocalStorage = createStore(appStorage);
  * 本地存储空间对象
  */
 export const local = {
+  i18n: createLocalStorage("i18n"), // 当前语言
   // user: createLocalStorage("user", FilterTypeEnum.JSON),
   // accessToken: createLocalStorage("accessToken"),
 };

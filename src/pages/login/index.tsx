@@ -16,17 +16,19 @@ import {updateTokenConfig} from "@/store/slices/userSlice";
 import {stringMd5} from "react-native-quick-md5";
 import * as apisAuth from "@/apis/auth/auth";
 import * as randomUtil from "@/utils/random";
+import useI18n from "@/hooks/useI18n";
 
 export default function LoginScreen() {
   const [username, setUserName] = useState("xph-admin");
   const [password, setPassword] = useState("Admin@1234");
+  const {t} = useI18n();
   const {theme} = useTheme();
   const {toast} = useToast();
   const dispatch = useDispatch();
 
   const onClickLoginBtn = () => {
     if (!username || !password) {
-      return toast.info("请输入用户名和密码");
+      return toast.info(`${t("login.tips.usernameAndPasswordNotNull")}`);
     }
 
     const timestamp = Date.now().toString();
@@ -63,7 +65,7 @@ export default function LoginScreen() {
           <TextInput
             value={username}
             style={styles.inputText}
-            placeholder="Username"
+            placeholder={`${t("login.username")}`}
             placeholderTextColor="#AFAFAF"
             onChangeText={username => setUserName(username)}
           />
@@ -72,7 +74,7 @@ export default function LoginScreen() {
           <TextInput
             value={password}
             style={styles.inputText}
-            placeholder="Password"
+            placeholder={`${t("login.password")}`}
             placeholderTextColor="#AFAFAF"
             secureTextEntry
             onChangeText={password => setPassword(password)}
@@ -86,7 +88,7 @@ export default function LoginScreen() {
             },
           ]}
           onPress={onClickLoginBtn}>
-          <Text style={styles.loginText}>LOGIN</Text>
+          <Text style={styles.loginText}>{t("login.upLogin")}</Text>
         </TouchableOpacity>
         <View style={styles.actions}>
           <TouchableOpacity style={{marginHorizontal: 15}}>

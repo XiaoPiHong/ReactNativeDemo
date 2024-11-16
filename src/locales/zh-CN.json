@@ -1,0 +1,12 @@
+{
+  "login": {
+    "username": "用户名",
+    "password": "密码",
+    "upLogin": "登录",
+    "tips": {
+      "usernameAndPasswordNotNull": "请输入用户名和密码"
+    }
+  },
+  "home": {},
+  "settings": {}
+}
