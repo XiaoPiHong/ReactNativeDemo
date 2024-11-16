@@ -26,7 +26,7 @@ export default function LoginScreen() {
 
   const onClickLoginBtn = () => {
     if (!username || !password) {
-      return toast.warning("请输入用户名和密码");
+      return toast.info("请输入用户名和密码");
     }
 
     const timestamp = Date.now().toString();

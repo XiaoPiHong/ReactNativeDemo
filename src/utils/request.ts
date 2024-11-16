@@ -4,7 +4,7 @@ import * as envUtil from "@/utils/env";
 import {useUserState, TAppDispatch} from "@/store/store";
 import {postRefreshToken} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
-import toast from "react-native-root-toast";
+import useToast from "@/hooks/useToast";
 
 const {BASE_API_URL, SERVER_URL} = envUtil.getEnvConfig();
 
@@ -133,14 +133,9 @@ function request(options: IRequestOptions) {
         return Promise.reject(new Error("未知错误"));
       })
       .catch(error => {
+        const {toast} = useToast();
+        toast.error(error.message);
         console.log(error.message);
-        toast.show(error.message, {
-          duration: toast.durations.LONG,
-          position: toast.positions.TOP,
-          shadow: true,
-          animation: true,
-          hideOnPress: true,
-        });
         return Promise.reject(error);
       });
   };

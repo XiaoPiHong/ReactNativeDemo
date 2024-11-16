@@ -10,8 +10,7 @@ import {NoInternetToast} from "@/components/NoInternet";
 import SplashScreen from "react-native-splash-screen";
 import RootNavigation from "@/components/RootNavigation";
 import {XUpdate, InitArgs} from "@/utils/xupdate";
-import {ToastProvider} from "react-native-toast-notifications";
-import {RootSiblingParent} from "react-native-root-siblings";
+import Toast from "react-native-toast-message";
 
 function App(): React.JSX.Element {
   //自定义的异常处理
@@ -73,21 +72,15 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <RootSiblingParent>
-      <SafeAreaProvider>
-        <ReduxProvider>
-          <ThemeProvider>
-            <ToastProvider
-              placement="top"
-              duration={4000}
-              animationType="zoom-in">
-              <RootNavigation />
-              <NoInternetToast />
-            </ToastProvider>
-          </ThemeProvider>
-        </ReduxProvider>
-      </SafeAreaProvider>
-    </RootSiblingParent>
+    <SafeAreaProvider>
+      <ReduxProvider>
+        <ThemeProvider>
+          <RootNavigation />
+          <NoInternetToast />
+          <Toast />
+        </ThemeProvider>
+      </ReduxProvider>
+    </SafeAreaProvider>
   );
 }
 

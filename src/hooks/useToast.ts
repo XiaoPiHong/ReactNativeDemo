@@ -1,28 +1,57 @@
-import {
-  useToast as useRNToast,
-  ToastOptions,
-} from "react-native-toast-notifications";
+import Toast, {ToastShowParams, ToastOptions} from "react-native-toast-message";
 
 const useToast = () => {
-  const rnToast = useRNToast();
+  const text1Style: ToastOptions["text1Style"] = {
+    fontSize: 16,
+  };
+  const text2Style: ToastOptions["text2Style"] = {
+    fontSize: 14,
+  };
 
   const toast = {
-    warning: (message: string | JSX.Element, options?: ToastOptions) => {
-      return rnToast.show(message, {...options, type: "warning"});
+    success: (
+      msg: string,
+      showParams: Omit<ToastShowParams, "type" | "text2"> = {},
+    ) => {
+      return Toast.show({
+        text1Style,
+        text2Style,
+        ...showParams,
+        type: "success",
+        text1: showParams.text1 || "success",
+        text2: msg,
+      });
     },
-    success: (message: string | JSX.Element, options?: ToastOptions) => {
-      return rnToast.show(message, {...options, type: "success"});
+
+    error: (
+      msg: string,
+      showParams: Omit<ToastShowParams, "type" | "text2"> = {},
+    ) => {
+      return Toast.show({
+        text1Style,
+        text2Style,
+        ...showParams,
+        type: "error",
+        text1: showParams.text1 || "error",
+        text2: msg,
+      });
     },
-    danger: (message: string | JSX.Element, options?: ToastOptions) => {
-      return rnToast.show(message, {...options, type: "danger"});
+    info: (
+      msg: string,
+      showParams: Omit<ToastShowParams, "type" | "text2"> = {},
+    ) => {
+      return Toast.show({
+        text1Style,
+        text2Style,
+        ...showParams,
+        type: "info",
+        text1: showParams.text1 || "info",
+        text2: msg,
+      });
     },
-    normal: (message: string | JSX.Element, options?: ToastOptions) => {
-      return rnToast.show(message, {...options, type: "normal"});
+    hide: () => {
+      return Toast.hide();
     },
-    update: rnToast.update,
-    hide: rnToast.hide,
-    hideAll: rnToast.hideAll,
-    isOpen: rnToast.isOpen,
   };
 
   return {
