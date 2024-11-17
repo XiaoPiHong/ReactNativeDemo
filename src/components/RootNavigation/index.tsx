@@ -1,6 +1,6 @@
 import React from "react";
 import {useTheme} from "@/context/useThemeContext";
-import {NavigationContainer} from "@react-navigation/native";
+import {createStaticNavigation} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Icon from "@/components/Icon";
@@ -21,58 +21,88 @@ const SettingsIcon = ({focused}) => {
   return <Icon name={"settings"} color={focused ? theme.primary : void 0} />;
 };
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const HomeTabs = createBottomTabNavigator({
+  screenOptions: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const {theme} = useTheme();
+    return {
+      tabBarStyle: {
+        backgroundColor: theme.cardBg,
+        borderTopColor: theme?.layoutBg,
+      },
+      tabBarInactiveTintColor: theme.color,
+      tabBarActiveTintColor: theme.primary,
+      headerStyle: {backgroundColor: theme.cardBg, height: 50},
+      headerTitleAlign: "center",
+      headerTitleStyle: {
+        fontFamily: typeVariants.titleLarge.fontFamily,
+        fontSize: 18,
+        color: theme.primary,
+        fontWeight: "bold",
+      },
+      tabBarShowLabel: false,
+    };
+  },
+  screens: {
+    Home: {
+      screen: HomeScreen,
+      options: {
+        tabBarLabel: "Home",
+        tabBarIcon: HomeIcon,
+      },
+    },
+    Settings: {
+      screen: SettingsScreen,
+      options: {
+        tabBarLabel: "Settings",
+        tabBarIcon: SettingsIcon,
+      },
+    },
+  },
+});
+
+const RootStack = createNativeStackNavigator({
+  groups: {
+    SignIn: {
+      if: () => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const user = useSelector((state: TRootState) => state.user);
+        return !!user.accessToken;
+      },
+      screens: {
+        HomeTab: {
+          screen: HomeTabs,
+          options: {
+            headerShown: false,
+          },
+        },
+      },
+    },
+    SignOut: {
+      if: () => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const user = useSelector((state: TRootState) => state.user);
+        return !user.accessToken;
+      },
+      screens: {
+        Login: {
+          options: {
+            headerShown: false,
+          },
+          screen: LoginScreen,
+        },
+      },
+    },
+    // screens: {
+    //   Help: HelpScreen,
+    // },
+  },
+});
+
+const Navigation = createStaticNavigation(RootStack);
 
 function RootNavigation() {
-  const {theme} = useTheme();
-  const user = useSelector((state: TRootState) => state.user);
-  return (
-    <NavigationContainer>
-      {user.accessToken ? (
-        <Tab.Navigator
-          screenOptions={{
-            tabBarStyle: {
-              backgroundColor: theme.cardBg,
-              borderTopColor: theme?.layoutBg,
-            },
-            tabBarInactiveTintColor: theme.color,
-            tabBarActiveTintColor: theme.primary,
-            headerStyle: {backgroundColor: theme.cardBg, height: 50},
-            headerTitleAlign: "center",
-            headerTitleStyle: {
-              fontFamily: typeVariants.titleLarge.fontFamily,
-              fontSize: 18,
-              color: theme.primary,
-              fontWeight: "bold",
-            },
-            tabBarShowLabel: false,
-          }}>
-          <Tab.Screen
-            name="Home"
-            options={{
-              tabBarIcon: HomeIcon,
-            }}
-            component={HomeScreen}
-          />
-          <Tab.Screen
-            name="Settings"
-            options={{
-              tabBarIcon: SettingsIcon,
-            }}
-            component={SettingsScreen}
-          />
-        </Tab.Navigator>
-      ) : (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
-  );
+  return <Navigation />;
 }
-
+export {Navigation};
 export default RootNavigation;
