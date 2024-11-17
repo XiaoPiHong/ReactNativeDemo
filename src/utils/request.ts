@@ -77,6 +77,7 @@ function request(options: IRequestOptions) {
         body = qs.stringify(data); // 自动将 object 转 FormData
         break;
     }
+    console.log(SERVER_URL);
     return fetch(
       `${SERVER_URL}${BASE_API_URL}${url}${
         query ? `?${qs.stringify(query)}` : ""
