@@ -99,10 +99,6 @@ const RootStack = createNativeStackNavigator({
   },
 });
 
-const Navigation = createStaticNavigation(RootStack);
+const RootNavigation = createStaticNavigation(RootStack);
 
-function RootNavigation() {
-  return <Navigation />;
-}
-export {Navigation};
 export default RootNavigation;
