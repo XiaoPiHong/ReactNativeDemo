@@ -12,12 +12,8 @@ import RootNavigation from "@/components/RootNavigation";
 import {XUpdate, InitArgs} from "@/utils/xupdate";
 import Toast from "react-native-toast-message";
 import "@/i18n";
-import useLanguageChange from "@/hooks/useLanguageChange";
 
 function App(): React.JSX.Element {
-  // 语言切换
-  useLanguageChange();
-
   //自定义的异常处理
   const errorListener = error => {
     //下载失败

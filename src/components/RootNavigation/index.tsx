@@ -1,6 +1,9 @@
 import React from "react";
 import {useTheme} from "@/context/useThemeContext";
-import {createStaticNavigation} from "@react-navigation/native";
+import {
+  createStaticNavigation,
+  createNavigationContainerRef,
+} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Icon from "@/components/Icon";
@@ -99,6 +102,11 @@ const RootStack = createNativeStackNavigator({
   },
 });
 
-const RootNavigation = createStaticNavigation(RootStack);
+const Navigation = createStaticNavigation(RootStack);
 
+const navigationRef = createNavigationContainerRef();
+
+const RootNavigation = Navigation;
+
+export {navigationRef};
 export default RootNavigation;

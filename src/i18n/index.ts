@@ -4,7 +4,8 @@ import i18next, {ModuleType} from "i18next";
 import {initReactI18next} from "react-i18next";
 import * as RNLocalize from "react-native-localize";
 import * as storageUtil from "@/utils/storage";
-import {CommonActions, useNavigation} from "@react-navigation/native";
+import {navigationRef} from "@/components/RootNavigation";
+import {useUserState} from "@/store/store";
 
 const languageDetector = {
   type: "languageDetector" as ModuleType,
@@ -57,7 +58,7 @@ export const getSystemLanguage = (): string => {
 };
 
 /**
- * 切换语言
+ * 切换语言（需要等redux和navigation初始化完成后才能调用）
  * @param lng
  */
 export const changeLanguage = async (lng?: "en" | "zh" | "locale") => {
@@ -65,15 +66,15 @@ export const changeLanguage = async (lng?: "en" | "zh" | "locale") => {
   await i18next.changeLanguage(lng === "locale" ? getSystemLanguage() : lng);
   // 持久化当前选择
   await storageUtil.local.i18n.set(lng);
-  // 跳转回首页
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const navigation = useNavigation();
-  navigation.dispatch(
-    CommonActions.reset({
-      index: 0,
-      routes: [{name: "Login"}],
-    }),
+  const userState = useUserState();
+
+  // 跳转回对应的初始页
+  navigationRef.reset(
+    userState.accessToken
+      ? {index: 0, routes: [{name: "HomeTab"}]}
+      : {index: 0, routes: [{name: "Login"}]},
   );
 };
 
