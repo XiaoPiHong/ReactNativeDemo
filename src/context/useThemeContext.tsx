@@ -1,10 +1,11 @@
+import {PaperProvider} from "react-native-paper";
 import React from "react";
-import {themes, TTheme} from "@/theme";
+import {themes, ITheme} from "@/theme";
 
 // Types
 export interface IThemeContext {
-  theme: TTheme;
-  setTheme: (value: TTheme) => void;
+  theme: ITheme;
+  setTheme: (value: ITheme) => void;
 }
 
 interface IThemeProvider {
@@ -20,9 +21,10 @@ const ThemeContext = React.createContext<IThemeContext>({
 // Provider to be used in index/App/or top of any parent
 const ThemeProvider = ({children}: IThemeProvider): JSX.Element => {
   const [theme, setTheme] = React.useState(themes.light);
+
   return (
     <ThemeContext.Provider value={{theme, setTheme}}>
-      {children}
+      <PaperProvider theme={theme}>{children}</PaperProvider>
     </ThemeContext.Provider>
   );
 };

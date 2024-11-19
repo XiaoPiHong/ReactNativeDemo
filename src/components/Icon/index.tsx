@@ -1,6 +1,7 @@
 import React from "react";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import {ColorValue} from "react-native";
+import {Text} from "react-native-paper";
 
 const Icon = ({
   name,
@@ -11,7 +12,11 @@ const Icon = ({
   color?: ColorValue | number;
   size?: number;
 }) => {
-  return <IonIcon name={name} size={size} color={color} />;
+  return (
+    <Text>
+      <IonIcon name={name} size={size} color={color} />
+    </Text>
+  );
 };
 
 export default Icon;

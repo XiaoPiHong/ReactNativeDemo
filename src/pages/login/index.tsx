@@ -84,7 +84,7 @@ export default function LoginScreen() {
           style={[
             styles.loginBtn,
             {
-              backgroundColor: theme.primary,
+              backgroundColor: theme.colors.primary,
             },
           ]}
           onPress={onClickLoginBtn}>
@@ -99,7 +99,7 @@ export default function LoginScreen() {
               style={[
                 styles.singUp,
                 {
-                  color: theme.primary,
+                  color: theme.colors.primary,
                 },
               ]}>
               Signup

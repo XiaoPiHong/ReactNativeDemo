@@ -26,10 +26,15 @@ const Layout = ({children, style, ...rest}: ILayoutProps) => {
       {...rest}>
       <StatusBar
         animated
-        backgroundColor={theme.cardBg}
+        backgroundColor={theme?.colors.surfaceVariant}
         barStyle={theme?.name === "light" ? "dark-content" : "light-content"}
       />
-      <View style={[styles.layout, {backgroundColor: theme?.layoutBg}, style]}>
+      <View
+        style={[
+          styles.layout,
+          {backgroundColor: theme?.colors.background},
+          style,
+        ]}>
         {children}
       </View>
     </View>

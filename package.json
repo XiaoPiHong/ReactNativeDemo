@@ -27,6 +27,7 @@
     "react-native": "0.76.1",
     "react-native-localize": "^3.3.0",
     "react-native-mmkv": "^3.1.0",
+    "react-native-paper": "^5.12.5",
     "react-native-quick-md5": "^3.0.6",
     "react-native-randombytes": "^3.6.1",
     "react-native-root-siblings": "^5.0.1",
