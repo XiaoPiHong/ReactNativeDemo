@@ -135,7 +135,7 @@ function request(options: IRequestOptions) {
       })
       .catch(error => {
         const {toast} = useToast();
-        toast.error(error.message);
+        toast.error(`${error.message}${SERVER_URL}`);
         console.log(error.message);
         return Promise.reject(error);
       });
