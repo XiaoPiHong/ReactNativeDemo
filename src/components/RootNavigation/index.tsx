@@ -16,6 +16,7 @@ import LoginScreen from "@/pages/login";
 import {useSelector} from "react-redux";
 import {TRootState} from "@/store/store";
 import {adaptNavigationTheme} from "react-native-paper";
+import ListHeaderLeft from "@/components/ListHeaderLeft";
 
 const HomeIcon = ({focused}) => {
   const {theme} = useTheme();
@@ -56,6 +57,7 @@ const HomeTabsScreen = () => {
           color: theme.colors.primary,
           fontWeight: "bold",
         },
+        headerLeft: props => <ListHeaderLeft />,
       }}>
       <Tab.Screen
         name="Home"

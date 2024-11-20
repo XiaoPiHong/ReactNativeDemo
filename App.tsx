@@ -11,6 +11,7 @@ import SplashScreen from "react-native-splash-screen";
 import RootNavigation from "@/components/RootNavigation";
 import {XUpdate, InitArgs} from "@/utils/xupdate";
 import Toast from "react-native-toast-message";
+import RootCompsProvider from "@/context/useRootCompsContext";
 import "@/i18n";
 
 function App(): React.JSX.Element {
@@ -76,7 +77,9 @@ function App(): React.JSX.Element {
     <SafeAreaProvider>
       <ReduxProvider>
         <ThemeProvider>
-          <RootNavigation />
+          <RootCompsProvider>
+            <RootNavigation />
+          </RootCompsProvider>
           <NoInternetToast />
           <Toast />
         </ThemeProvider>
