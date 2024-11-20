@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import Layout from "@/layout";
 import {useTheme} from "@/context/useThemeContext";
@@ -53,6 +54,14 @@ export default function LoginScreen() {
 
   return (
     <Layout style={styles.layout}>
+      {/**
+       * StatusBar用于覆盖Layout的状态栏
+       */}
+      <StatusBar
+        animated
+        backgroundColor="#fff"
+        barStyle={theme?.name === "light" ? "dark-content" : "light-content"}
+      />
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <View style={styles.logoView}>
           <Image
