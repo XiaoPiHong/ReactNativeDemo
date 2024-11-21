@@ -1,4 +1,10 @@
 {
+  "noInternet": {
+    "networkAbnormality": "Network abnormality",
+    "tips": {
+      "networkCheck": "Please check your network"
+    }
+  },
   "login": {
     "username": "Username",
     "password": "Password",

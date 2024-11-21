@@ -6,7 +6,7 @@ import React, {useEffect} from "react";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import ReduxProvider from "@/store";
 import ThemeProvider from "@/context/useThemeContext";
-import {NoInternetToast} from "@/components/NoInternet";
+import NoInternet, {NoInternetToast} from "@/components/NoInternet";
 import SplashScreen from "react-native-splash-screen";
 import RootNavigation from "@/components/RootNavigation";
 import {XUpdate, InitArgs} from "@/utils/xupdate";

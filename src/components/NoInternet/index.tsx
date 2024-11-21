@@ -1,10 +1,13 @@
 import React, {useMemo} from "react";
-import {StyleSheet, Text, View, useWindowDimensions} from "react-native";
+import {StyleSheet, View, useWindowDimensions} from "react-native";
 import {useNetInfo} from "@react-native-community/netinfo";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {ActivityIndicator, Text} from "react-native-paper";
+import useI18n from "@/hooks/useI18n";
 
 // Full Screen component to show No internet message
 const NoInternet = () => {
+  const {t} = useI18n();
   const netInfo = useNetInfo();
   const insets = useSafeAreaInsets();
   // netInfo.isConnected init is null
@@ -24,8 +27,11 @@ const NoInternet = () => {
             bottom: insets.bottom,
           },
         ]}>
-        <Text style={[styles.fullOfflineTitle, {color: "red"}]}>网络异常</Text>
-        <Text style={{color: "red"}}>请检查你的网络</Text>
+        <Text style={[styles.fullOfflineTitle, {color: "red"}]}>
+          {t("noInternet.networkAbnormality")}
+        </Text>
+        <Text style={{color: "red"}}>{t("noInternet.tips.networkCheck")}</Text>
+        <ActivityIndicator size="small" color="#fff" />
       </View>
     );
   }
@@ -36,7 +42,9 @@ export default NoInternet;
 
 // Component (tiny) for showing No Intenet message at bottom the app
 export const NoInternetToast = () => {
+  const {t} = useI18n();
   const netInfo = useNetInfo();
+  const insets = useSafeAreaInsets();
   const {width} = useWindowDimensions();
   const isConnected = useMemo(
     () => netInfo.isConnected ?? true,
@@ -44,8 +52,11 @@ export const NoInternetToast = () => {
   );
   if (!isConnected) {
     return (
-      <View style={[styles.offlineContainer, {width}]}>
-        <Text style={styles.offlineText}>网络异常</Text>
+      <View style={[styles.offlineContainer, {width, bottom: insets.bottom}]}>
+        <Text style={styles.offlineText}>
+          {t("noInternet.networkAbnormality")}
+        </Text>
+        <ActivityIndicator size="small" color="#fff" />
       </View>
     );
   }
@@ -65,12 +76,10 @@ const styles = StyleSheet.create({
   },
   offlineContainer: {
     backgroundColor: "#d70015",
-    height: 18,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
     position: "absolute",
-    bottom: 0,
     zIndex: 10,
   },
   offlineText: {fontSize: 11, color: "#fff"},

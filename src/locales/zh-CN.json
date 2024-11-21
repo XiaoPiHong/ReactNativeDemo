@@ -1,4 +1,10 @@
 {
+  "noInternet": {
+    "networkAbnormality": "网络异常",
+    "tips": {
+      "networkCheck": "请检查你的网络"
+    }
+  },
   "login": {
     "username": "用户名",
     "password": "密码",
