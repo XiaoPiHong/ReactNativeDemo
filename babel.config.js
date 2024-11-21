@@ -31,5 +31,6 @@ module.exports = {
         },
       },
     ],
+    "react-native-reanimated/plugin", // 该插件需要放在最后
   ],
 };

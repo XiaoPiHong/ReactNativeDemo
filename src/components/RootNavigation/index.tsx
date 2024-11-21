@@ -57,7 +57,7 @@ const HomeTabsScreen = () => {
           color: theme.colors.primary,
           fontWeight: "bold",
         },
-        headerLeft: props => <ListHeaderLeft />,
+        headerLeft: props => <ListHeaderLeft navigationProps={props} />,
       }}>
       <Tab.Screen
         name="Home"
