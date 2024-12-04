@@ -44,7 +44,7 @@ yarn android 运行 app 到模拟器
 ```txt
 密钥库口令：x
 生成签名密钥（在 jdk 中（C:\Program Files\Java\jdk-17\bin）以管理员身份执行命令）
-keytool -genkeypair -v -storetype PKCS12 -keystore my-release-key.keystore -alias 上面的密钥口令 -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkeypair -v -storetype PKCS12 -keystore my-release-key.keystore -alias 上面的密钥库口令 -keyalg RSA -keysize 2048 -validity 10000
 姓氏名称：x
 组织单位名称：x
 组织名称：x
@@ -93,7 +93,7 @@ keytool -genkeypair -v -storetype PKCS12 -keystore my-release-key.keystore -alia
 
 把签名配置加入到项目的 gradle 配置中
 
-生成发行 APK 包：（1、生产环境 apk 包，生成的路径：ReactNativeDemo\android\app\build\outputs\apk\release\app-release.apk；2、生产应用和开发应用不能同时存在，因为两者包名是一样的）
+生成发行 APK 包：（1、也就是生产环境 apk 包，生成的路径：ReactNativeDemo\android\app\build\outputs\apk\release\app-release.apk；2、生产应用和开发应用不能同时存在，因为两者包名是一样的）
 
 ```bash
 yarn run build:android
