@@ -14,18 +14,21 @@ const languageDetector = {
     // 获取上次选择的语言
     storageUtil.local.i18n.get().then(lng => {
       console.log("i18n初始化时", lng);
-      // 如果是跟随本地，则获取系统语言
-      if (lng === "locale") {
-        callback(getSystemLanguage());
+      if (lng) {
+        // 如果是跟随本地，则获取系统语言
+        if (lng === "locale") {
+          callback(getSystemLanguage());
+        } else {
+          // 如果不是跟随本地，则获取上次选择的语言
+          callback(lng);
+        }
       } else {
-        callback(lng);
+        storageUtil.local.i18n.set("locale");
+        callback(getSystemLanguage());
       }
     });
   },
 };
-
-// 设置默认语言跟随本地
-storageUtil.local.i18n.set("locale");
 
 // 初始化i18next配置
 i18next
@@ -52,9 +55,9 @@ i18next
  * 获取当前系统语言
  * @returns {string}
  */
-export const getSystemLanguage = (): string => {
+export const getSystemLanguage = (): string | undefined => {
   const locales = RNLocalize.getLocales();
-  return locales[0].languageCode;
+  return locales[0]?.languageCode || void 0;
 };
 
 /**
