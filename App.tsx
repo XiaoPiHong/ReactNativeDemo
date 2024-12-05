@@ -72,7 +72,9 @@ function App(): React.JSX.Element {
     // 设置错误监听
     XUpdate.addErrorListener(errorListener);
 
-    XUpdate.getAppVersion();
+    XUpdate.getAppVersion().then(res => {
+      console.log(res);
+    });
   }, []);
 
   return (

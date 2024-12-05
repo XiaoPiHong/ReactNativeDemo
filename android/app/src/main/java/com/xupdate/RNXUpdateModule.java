@@ -288,8 +288,14 @@ public class RNXUpdateModule extends ReactContextBaseJavaModule {
         try {
             String versionName = UpdateUtils.getVersionName(mApplication);
             int versionCode = UpdateUtils.getVersionCode(mApplication);
-            // 将版本信息作为对象返回
-            promise.resolve(new Object[] {versionName, versionCode});
+            
+            // 创建一个 WritableMap 来存放版本信息
+            WritableMap versionInfo = Arguments.createMap();
+            versionInfo.putString("versionName", versionName);
+            versionInfo.putInt("versionCode", versionCode);
+            
+            // 返回版本信息
+            promise.resolve(versionInfo);
         } catch (Exception e) {
             // 发生错误时拒绝 promise
             promise.reject("ERROR", "Unable to get app version", e);
