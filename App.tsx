@@ -71,6 +71,8 @@ function App(): React.JSX.Element {
     XUpdate.setCustomParser({parseJson: customParser});
     // 设置错误监听
     XUpdate.addErrorListener(errorListener);
+
+    XUpdate.getAppVersion();
   }, []);
 
   return (

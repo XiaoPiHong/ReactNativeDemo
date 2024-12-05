@@ -239,6 +239,17 @@ const XUpdate = {
       retryUrl: retryUrl,
     });
   },
+
+  async getAppVersion() {
+    try {
+      // 使用 async/await 调用返回 Promise 的原生方法
+      const [versionName, buildNumber] = await RNXUpdate.getAppVersion();
+      console.log("Version Name:", versionName); // 版本号
+      console.log("Build Number:", buildNumber); // 构建号
+    } catch (error) {
+      console.error("Error getting app version:", error);
+    }
+  },
 };
 
 export {InitArgs, UpdateArgs, UpdateEntity, UpdateParser, XUpdate};
