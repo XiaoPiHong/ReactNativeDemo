@@ -105,6 +105,8 @@ yarn run build:android
 yarn run android:release
 ```
 
+管理应用版本号：ReactNativeDemo\android\app\build.gradle（打包前修改 versionCode、versionName）
+
 4、待实现：
 
 增量更新（热更新的方式有很多，增量更新是实现热更新的一种技术方式。增量更新可以作为热更新的一部分，用于确保只更新更改的部分）

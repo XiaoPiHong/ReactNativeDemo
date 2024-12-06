@@ -7,7 +7,6 @@ const ListHeaderLeft = ({navigationProps}) => {
   const {theme} = useTheme();
   const {listDrawerRef} = useRootComps();
   const onPress = () => {
-    console.log("navigationProps", navigationProps);
     listDrawerRef?.current?.setOpen(true);
   };
   return (
