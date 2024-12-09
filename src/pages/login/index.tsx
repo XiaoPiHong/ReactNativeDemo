@@ -10,7 +10,6 @@ import {
   StatusBar,
 } from "react-native";
 import Layout from "@/layout";
-import {useTheme} from "@/context/useThemeContext";
 import useToast from "@/hooks/useToast";
 import {useDispatch} from "react-redux";
 import {updateTokenConfig} from "@/store/slices/userSlice";
@@ -23,7 +22,6 @@ export default function LoginScreen() {
   const [username, setUserName] = useState("xph-admin");
   const [password, setPassword] = useState("Admin@1234");
   const {t} = useI18n();
-  const {theme} = useTheme();
   const {toast} = useToast();
   const dispatch = useDispatch();
 
@@ -57,11 +55,7 @@ export default function LoginScreen() {
       {/**
        * StatusBar用于覆盖Layout的状态栏
        */}
-      <StatusBar
-        animated
-        backgroundColor="#fff"
-        barStyle={theme?.name === "light" ? "dark-content" : "light-content"}
-      />
+      <StatusBar animated backgroundColor="#fff" barStyle={"dark-content"} />
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <View style={styles.logoView}>
           <Image
@@ -89,14 +83,7 @@ export default function LoginScreen() {
             onChangeText={password => setPassword(password)}
           />
         </View>
-        <TouchableOpacity
-          style={[
-            styles.loginBtn,
-            {
-              backgroundColor: theme.colors.primary,
-            },
-          ]}
-          onPress={onClickLoginBtn}>
+        <TouchableOpacity style={[styles.loginBtn]} onPress={onClickLoginBtn}>
           <Text style={styles.loginText}>{t("login.upLogin")}</Text>
         </TouchableOpacity>
         <View style={styles.actions}>
@@ -104,15 +91,7 @@ export default function LoginScreen() {
             <Text style={styles.forgot}>Forgot Password?</Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text
-              style={[
-                styles.singUp,
-                {
-                  color: theme.colors.primary,
-                },
-              ]}>
-              Signup
-            </Text>
+            <Text style={[styles.singUp]}>Signup</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -152,6 +131,7 @@ const styles = StyleSheet.create({
   },
   singUp: {
     fontWeight: "500",
+    color: "#2bbca2",
   },
   loginBtn: {
     width: "80%",
@@ -161,6 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     marginBottom: 10,
+    backgroundColor: "#2bbca2",
   },
   loginText: {
     color: "#ffffff",
