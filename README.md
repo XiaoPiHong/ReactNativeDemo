@@ -57,7 +57,7 @@ keytool -genkeypair -v -storetype PKCS12 -keystore my-release-key.keystore -alia
 
 # 原生安卓生成签名密钥的作用
 
-在原生 Android 应用开发中，**生成签名密钥（Keystore）**是发布和分发 Android 应用的一个非常重要的步骤。签名密钥（通常是一个 `.jks` 或 `.keystore` 文件）用于对 APK 文件进行签名，确保应用的完整性和安全性。它的主要作用如下：
+在原生 Android 应用开发中，**生成签名密钥（Keystore）** 是发布和分发 Android 应用的一个非常重要的步骤。签名密钥（通常是一个 `.jks` 或 `.keystore` 文件）用于对 APK 文件进行签名，确保应用的完整性和安全性。它的主要作用如下：
 
 ## 1. 验证应用的身份
 
